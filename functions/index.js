@@ -12,7 +12,7 @@ exports.onUpload = functions.storage.object().onFinalize(async (object) => {
     /**
      * TODO(developer): Uncomment the following line before running the sample.
      */
-    const gcsUri = `gs://bucket/bucketImage.png`;
+    const gcsUri = `gs://bucket/${object.name}`;
 
     const [result] = await client.objectLocalization(gcsUri);
     const objects = result.localizedObjectAnnotations;
