@@ -21,7 +21,7 @@ class _FeedState extends State<Feed> {
         if(s.connectionState!=ConnectionState.done){
           return Center(child: CircularProgressIndicator());
         }else{
-          return Text(s.data.documents.toString());
+          return Text(s.data.documents.toString(),style: TextStyle(color: Colors.black),);
         }
       },
     );

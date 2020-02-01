@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "536859902930",
+    "firebase_url": "https://beachy-ee0ed.firebaseio.com",
+    "project_id": "beachy-ee0ed",
+    "storage_bucket": "beachy-ee0ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536859902930:android:0acee5c7fd149a85e1be0b",
+        "android_client_info": {
+          "package_name": "com.cheezit.beachy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536859902930-chhqnklai50g2luc2bk9vbs2uslb1lce.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_VQfqcKiSC7QPVKf5EZGf6d4Vub67cCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536859902930-chhqnklai50g2luc2bk9vbs2uslb1lce.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "536859902930-5mqfu8i2e5k5q0ufmf4n0vgm8ebtr9l8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cheez-it.beachy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
