@@ -44,7 +44,17 @@ exports.joinEvent = functions.https.onRequest(async (req, res) => {
   if(user != null){
     const eventDoc = await db.collection('events').doc(event).get();
     if(eventDoc.exists){
-      
+      if(eventDoc.data()['happened'] != true){
+        //Event hasn't happened yet, and they are a user
+        db.collection('events').doc(event).collection('participants').doc(user.uid).create(
+          {
+            signedUp: Date.now()
+          }
+        );
+        res.status(200).send("success");
+      }else{
+        res.status(401).send("Event already happened");
+      }
     }else{
       res.status(401).send("Event doesn't exist");
     }
