@@ -4,31 +4,23 @@ admin.initializeApp();
 
 // Imports the Google Cloud client libraries
 const vision = require('@google-cloud/vision');
-const fs = require('fs');
-
-// Creates a client
-const client = new vision.ImageAnnotatorClient();
 
 exports.onUpload = functions.storage.object().onFinalize(async (object) => {
+    // Creates a client
+    const client = new vision.ImageAnnotatorClient();
+
     /**
      * TODO(developer): Uncomment the following line before running the sample.
      */
-    const fileName = object.name;
-    const request = {
-      image: {content: fs.readFileSync(fileName)},
-    };
+    const gcsUri = `gs://bucket/bucketImage.png`;
 
-    const [result] = await client.objectLocalization(request);
+    const [result] = await client.objectLocalization(gcsUri);
     const objects = result.localizedObjectAnnotations;
     objects.forEach(object => {
-      if(object.name === `Packaged goods`) {
-        console.log(`yes`);
-      } else {
-        console.log(`${object.name}`);
-      }
+      console.log(`Name: ${object.name}`);
       console.log(`Confidence: ${object.score}`);
-      const vertices = object.boundingPoly.normalizedVertices;
-      vertices.forEach(v => console.log(`x: ${v.x}, y:${v.y}`));
+      const veritices = object.boundingPoly.normalizedVertices;
+      veritices.forEach(v => console.log(`x: ${v.x}, y:${v.y}`));
     });
   });
 // // Create and Deploy Your First Cloud Functions
