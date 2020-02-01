@@ -13,7 +13,7 @@ exports.onUpload = functions.storage.object().onFinalize(async (object) => {
     /**
      * TODO(developer): Uncomment the following line before running the sample.
      */
-    const fileName = 'gs://beachy-ee0ed.appspot.com/'+object.name;
+    const fileName = object.name;
     const request = {
       image: {content: fs.readFileSync(fileName)},
     };
