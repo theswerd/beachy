@@ -9,6 +9,7 @@ class Cleanup {
   int inAttendance;
   String locationShort;
   String locationLong;
+  bool active;
   Cleanup(
     this.name,
     this.date,
@@ -16,7 +17,8 @@ class Cleanup {
     this.image,
     this.inAttendance,
     this.locationShort,
-    this.locationLong
+    this.locationLong,
+    this.active
   );
   DateTime getStartDate()=>date.toDate();
   DateTime getEndDate()=>endTime.toDate();

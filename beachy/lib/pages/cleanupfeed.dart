@@ -24,6 +24,7 @@ class _FeedState extends State<Feed> {
       stream: Firestore.instance
           .collection("events")
           .orderBy('date', descending: false)
+          //.where('happened', isEqualTo: 'false')
           .limit(50)
           .getDocuments()
           .asStream(),
@@ -44,7 +45,9 @@ class _FeedState extends State<Feed> {
                   document['image'],
                   int.parse(document['inAttendance']),
                   document['locationShort'],
-                  document['locationLong']);
+                  document['locationLong'],
+                  document['active'] == true
+                  );
               return RaisedButton(
                 elevation: 12,
                 shape: RoundedRectangleBorder(
@@ -105,7 +108,18 @@ class _FeedState extends State<Feed> {
                           ],
                         ),
                         Divider(),
-                        Text(document['locationLong'], textScaleFactor: 1.25)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(child: Text(document['locationLong'], textScaleFactor: 1.25), width: MediaQuery.of(context).size.width/1.6),
+                            cleanup.active?FloatingActionButton(
+                              mini: true,
+                              child: Icon(Mdi.starOutline),
+                              heroTag: document.toString()+cleanup.toString(),
+                              onPressed: (){},
+                            ):Container()
+                          ],
+                        )
                       ],
                     ),
                   );

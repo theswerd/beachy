@@ -81,9 +81,18 @@ class _CleanUpPageState extends State<CleanUpPage> {
                   borderSide:BorderSide(color: Constants.lightColors.primaryColor),
                   child: Container(
                     height: 50,
-                    child: Center(child: Text("Register Now!"))
+                    child: Center(child: Text("Register now!"))
                   ),
                   
+                  onPressed: (){},
+                ),
+                Divider(),
+                OutlineButton(
+                  borderSide:BorderSide(color: Constants.lightColors.primaryColor),
+                  child: Container(
+                    height: 50,
+                    child: Center(child: Text("Add 2 your calendar"))
+                  ),
                   onPressed: (){},
                 )
               ],

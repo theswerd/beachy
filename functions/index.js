@@ -19,7 +19,7 @@ exports.onUpload = functions.storage.object().onFinalize(async (object) => {
     console.log("Starting #2");
     const objects = result.localizedObjectAnnotations;
     console.log("OK IT WORKED");
-    
+  
     console.log(objects);
     return db.collection("trashPeices").doc(object.name).create({
       types: objects
