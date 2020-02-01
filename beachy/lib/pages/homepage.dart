@@ -1,3 +1,4 @@
+import 'package:beachy/pages/cleanupfeed.dart';
 import 'package:beachy/pages/startpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Beachy"),
       ),
+      body: Feed(),
     );
   }
 

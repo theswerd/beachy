@@ -34,6 +34,9 @@ dependencies:
   mdi: ^1.0.1
   liquid_swipe: ^1.3.1
 
+  intl: ^0.16.1
+
+
 
 dev_dependencies:
   flutter_test:

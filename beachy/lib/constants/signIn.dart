@@ -10,7 +10,15 @@ Future<bool> signInWithGoogle()async{
   );
   
   GoogleSignInAccount account = await _googleSignIn.signIn();
-  
+  if(account == null){
+    return false;
+  }else{
+    final GoogleSignInAuthentication googleAuth = await account.authentication;  
+    final AuthCredential credential = GoogleAuthProvider.getCredential(accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+    final AuthResult user = await FirebaseAuth.instance.signInWithCredential(credential);  
+ 
+    return true; 
+  }
   return account == null?false:true;
 }
 
