@@ -22,7 +22,7 @@ class _IntroPagesState extends State<IntroPages>{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(height: 100, width: 100, color: Colors.black),
+          Container(height: 150, width: 150, child: Image(image: AssetImage('assets/Beachy.png')),),
           Container(height: 70,),
           Text("Welcome to Beachy, the beach cleanup app!", textScaleFactor: 1.5, textAlign: TextAlign.center,),
           Container(height: 50,),
@@ -31,17 +31,17 @@ class _IntroPagesState extends State<IntroPages>{
       ),
     ),
     Container(
-      color: Constants.lightColors.secondaryColor,
+      color: Constants.lightColors.primaryColor,
       padding: EdgeInsets.all(35),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("We help bring coastal communities together through beach cleanups.", textAlign: TextAlign.center, textScaleFactor: 1.5,),
+          Text("We help bring coastal communities together through beach cleanups.", textAlign: TextAlign.center, textScaleFactor: 1.6, style: TextStyle(color:Color.fromARGB(255, 240, 240, 240))),
           Container(height: 50,),
-          Text("We help environmental organizations analyze the data from beach cleanups.", textScaleFactor: 1.5, textAlign: TextAlign.center,),
+          Text("We help environmental organizations analyze the data from beach cleanups.", textScaleFactor: 1.6, textAlign: TextAlign.center, style: TextStyle(color:Color.fromARGB(255, 240, 240, 240))),
           Container(height: 50,),
-          Text("And most importantly we help you help the beach!", textScaleFactor: 1.5, textAlign: TextAlign.center,),
-          Container(height: 50),
+          Text("And most importantly we help you help the beach!", textScaleFactor: 1.6, textAlign: TextAlign.center, style: TextStyle(color:Color.fromARGB(255, 240, 240, 240))),
+          Container(height: 69),
           RaisedButton(
             padding: EdgeInsets.symmetric(horizontal:30, vertical: 20),
             shape: RoundedRectangleBorder(
@@ -49,7 +49,6 @@ class _IntroPagesState extends State<IntroPages>{
             ),
             splashColor: Constants.lightColors.primaryColor,
             child: Text("To get started please sign in!", textScaleFactor: 1.25,),
-            color: Colors.white,
             onPressed: () async{
               bool loggedIn = await signInWithGoogle();
               if(loggedIn){
@@ -71,7 +70,7 @@ class _IntroPagesState extends State<IntroPages>{
       body: LiquidSwipe(
         waveType: WaveType.liquidReveal,
         pages: pages,
-        enableSlideIcon: true,
+        //enableSlideIcon: true,
         enableLoop: true,
         slideIconWidget: Icon(Mdi.arrowRight),
       )

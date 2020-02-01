@@ -24,13 +24,38 @@ exports.onUpload = functions.storage.object().onFinalize(async (object) => {
     return db.collection("trashPeices").doc(object.name).create({
       types: objects
     });
-    // objects.forEach(object => {
-    //   console.log(`Name: ${object.name}`);
-    //   console.log(`Confidence: ${object.score}`);
-    //   const veritices = object.boundingPoly.normalizedVertices;
-    //   veritices.forEach(v => console.log(`x: ${v.x}, y:${v.y}`));
-    // });
-  });
+});
+
+exports.signUpNewUser = functions.auth.user().onCreate((user) => {
+  return db.collection("users").doc(user.uid).create(
+    {
+      isOrganization: false,
+      points: 0
+    }
+  );
+});
+
+exports.joinEvent = functions.https.onRequest(async (req, res) => {
+  // Grab the text parameter.
+  const event = req.body.eventID;
+  const userToken = req.headers.authorization;
+
+  const user = await admin.auth().verifyIdToken(userToken);
+  if(user != null){
+    const eventDoc = await db.collection('events').doc(event).get();
+    if(eventDoc.exists){
+      
+    }else{
+      res.status(401).send("Event doesn't exist");
+    }
+  }else{
+    res.status(401).send("You aren't loggged in");
+  }
+  // Push the new message into the Realtime Database using the Firebase Admin SDK.
+  // const snapshot = await admin.database().ref('/messages').push({original: original});
+  // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
+});
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
