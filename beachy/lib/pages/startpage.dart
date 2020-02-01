@@ -52,7 +52,9 @@ class _IntroPagesState extends State<IntroPages>{
             color: Colors.white,
             onPressed: () async{
               bool loggedIn = await signInWithGoogle();
-              loggedIn?Navigator.pop(context):null;
+              if(loggedIn){
+                Navigator.pop(context);
+              }
             },
 
           )
