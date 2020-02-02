@@ -1,5 +1,5 @@
 # Beachy
-![Logo](/beachy/logos/Banner_upscaled_image_x4.jpg)
+![Logo](/beachy/logos/Banner.jpg)
 
 Beachy is platform aimed at incentivizing the next generation to attend beach cleanups and pick up the trash that is polluting our beaches; and to have fun doing it.
 
