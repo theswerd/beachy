@@ -35,23 +35,69 @@ exports.signUpNewUser = functions.auth.user().onCreate((user) => {
   );
 });
 
+exports.userOrganizationStatus = functions.firestore.document('users/{userID}').onUpdate(async (snapshot, context) => {
+  let data = snapshot.after.data();
+  let isOrganization = data.isOrganization;
+  if(isOrganization){
+    let userID = context.params.userID;
+    let user = await admin.auth().getUser(userID);
+    let email = user.email;
+    return db.collection('organizations').doc(email).create({});
+  }else{
+    return db.collection('organizations').doc(email).delete();
+  }
+});
+exports.createEvent = functions.https.onRequest(async (req,res)=>{
+  let userToken = req.headers.authorization;
+  let userTokenResult = await admin.auth().verifyIdToken(userToken);
+  let user = await admin.auth().getUser(user.uid);
+  let email = user.email;
+  let adminListObject = await db.collection('organizations').doc(email).get();
+  if(adminListObject.exists){
+    //IS Organization
+    let image = req.body.image;
+    let date = req.body.date;
+    let endtime = req.body.endtime;
+    let locationShort = req.body.locationShort;
+    let locationLong = req.body.locationLong;
+    let orgName = req.body.orgName;
+    let inAttendance = 0;
+    return db.collection('events').add(
+      {
+        image: image,
+        date: date,
+        endtime: endtime,
+        locationShort: locationShort,
+        locationLong: locationLong,
+        orgName: orgName,
+        inAttendance: inAttendance,
+        happening: false,
+        active: false
+      }
+    );
+  }else{
+    //NOT Organization
+    return res.status(400).send('You aren\'t an organization!');
+  }
+});
+
 exports.joinEvent = functions.https.onRequest(async (req, res) => {
   // Grab the text parameter.
   const event = req.body.eventID;
   const userToken = req.headers.authorization;
 
   const user = await admin.auth().verifyIdToken(userToken);
-  if(user != null){
+  if(user !== undefined){
     const eventDoc = await db.collection('events').doc(event).get();
     if(eventDoc.exists){
-      if(eventDoc.data()['happened'] != true){
+      if(eventDoc.data()['happened'] !== true){
         //Event hasn't happened yet, and they are a user
         db.collection('events').doc(event).collection('participants').doc(user.uid).create(
           {
             signedUp: Date.now()
           }
         );
-        res.status(200).send("success");
+        res.status(200).send("Success!");
       }else{
         res.status(401).send("Event already happened");
       }
@@ -66,9 +112,71 @@ exports.joinEvent = functions.https.onRequest(async (req, res) => {
   // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
 });
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+exports.addEventToUserDoc = functions.firestore.document("events/{eventID}/participants/{userID}").onCreate((snapshot,context)=>{
+  db.collection('users').doc(
+    context.params.userID
+  ).collection('events').doc(
+    context.params.eventID
+  ).set(
+    {
+      time: Date.now()
+    }
+  )
+});
+
+exports.postPeiceOfTrashToEvent = functions.https.onRequest(async (req, res) => {
+  const eventName = req.body.eventID;
+  const typeOfTrash = req.body.type;
+  const image = req.body.image;
+
+  const userToken = req.headers.authorization;
+
+  const user = await admin.auth().verifyIdToken(userToken);
+  if(user !== undefined){
+    const event = await db.collection("events").doc(eventName).get();
+    if(event.exists){
+      const eventParticipant = await db.collection("events").doc(eventName).collection('participants').doc(user.uid).get();
+      if(eventParticipant.exists){
+        const imageData = await db.collection('trashPeices').doc(image).get();
+        if(imageData.exists){
+          //IS USER WHO PARTICPATES IN REAL EVENT with a real image
+          //I AM AWARE OF THE RECCURSION I DONT HAVE TIME TO FIX IT
+          db.collection("events").doc(eventName).collection('trash').add(
+            {
+              type: typeOfTrash,
+              image: image,
+              user: user.uid,
+              imageData:imageData.data()
+            }
+          )
+          return res.status(400).send("Recieved");
+        }else{
+          return res.status(400).send("Image data doesn't exist");
+        }
+      }
+    }else{
+      return res.status(400).send("Event doesn't exist");
+    }
+  }else{
+    return res.status(400).send("You aren't logged in");
+  }
+});
+
+exports.registerPeiceOfTrashInAnalyticsData = functions.firestore.document('events/{eventID}/trash/{trashID}').onCreate((snapshot, context)=>{
+
+  const eventID = context.params.eventID;
+  const type = snapshot.data().type;
+  const imageData = snapshot.data().imageData;
+  
+  return db.collection('events').doc(eventID).collection('analyticsData').doc(type).collection('amount').add({trash:imageData});
+});
+exports.registerPeiceOfTrashInAnalytics = functions.firestore.document('events/{eventID}/analyticsData/{typeID}/amount/{trashObject}').onCreate(async (snapshot, context)=>{
+  const eventID = context.params.eventID;
+  const typeID = context.params.typeID;
+  const amountData = await db.collection('events').doc(eventID).collection('analyticsData').doc(typeID).collection('amount').listDocuments();
+  const amount = amountData.length;
+
+  return db.collection('events').doc(eventID).update({
+    typeID: amount
+  })
+});

@@ -3,6 +3,7 @@ import 'package:beachy/constants/cleanup.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:mdi/mdi.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 class CleanUpPage extends StatefulWidget {
   Cleanup cleanup;
@@ -93,7 +94,16 @@ class _CleanUpPageState extends State<CleanUpPage> {
                     height: 50,
                     child: Center(child: Text("Add 2 your calendar"))
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    final Event event = Event(
+                      title: cleanup.name,
+                      description: "A beach cleanup at "+cleanup.locationShort,
+                      location: cleanup.locationLong,
+                      startDate: cleanup.getStartDate(),
+                      endDate: cleanup.getEndDate(),
+                    );
+                    Add2Calendar.addEvent2Cal(event);
+                  },
                 )
               ],
             ),

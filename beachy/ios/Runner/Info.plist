@@ -13,6 +13,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need to access you calendar so you can add cleanups to it</string>
+	<key>NSContactsUsageDescription</key>
+	<string>We need to access your contacts so we can add to your calendar?</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
