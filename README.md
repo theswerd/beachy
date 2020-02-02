@@ -1,5 +1,5 @@
 # Beachy
-![Logo](/logos/Banner_upscaled_image_x4.jpg)
+![Logo](/logos/Banner.jpg)
 
 #### General
 **Beachy** is a platform that uses a **Dart/Flutter** front-end and a **Node/JavaScript** back-end hosted on **Firebase**. Beachy works with organizations to get their cleanups on our feed. Then our users can find out about them on their homepage stream. They can click on each event to find out more information about it, and can sign up in advance.
