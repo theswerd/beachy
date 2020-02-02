@@ -87,6 +87,7 @@ exports.joinEvent = functions.https.onRequest(async (req, res) => {
   const userToken = req.headers.authorization;
 
   const user = await admin.auth().verifyIdToken(userToken);
+  const userInfo = await admin.auth().getUser(user.uid);
   if(user !== undefined){
     const eventDoc = await db.collection('events').doc(event).get();
     if(eventDoc.exists){
@@ -94,7 +95,9 @@ exports.joinEvent = functions.https.onRequest(async (req, res) => {
         //Event hasn't happened yet, and they are a user
         db.collection('events').doc(event).collection('participants').doc(user.uid).create(
           {
-            signedUp: Date.now()
+            signedUp: Date.now(),
+            points: 0,
+            name: userInfo.displayName
           }
         );
         res.status(200).send("Success!");
@@ -148,21 +151,16 @@ exports.postPeiceOfTrashToEvent = functions.https.onRequest(async (req, res) => 
       const eventParticipant = await db.collection("events").doc(eventName).collection('participants').doc(user.uid).get();
       if(eventParticipant.exists){
         const imageData = await db.collection('trashPeices').doc(image).get();
-        if(imageData.exists){
-          //IS USER WHO PARTICPATES IN REAL EVENT with a real image
-          //I AM AWARE OF THE RECCURSION I DONT HAVE TIME TO FIX IT
           db.collection("events").doc(eventName).collection('trash').add(
             {
               type: typeOfTrash,
               image: image,
               user: user.uid,
-              imageData:imageData.data()
+              imageData:imageData.id
             }
           )
-          return res.status(400).send("Recieved");
-        }else{
-          return res.status(400).send("Image data doesn't exist");
-        }
+          return res.status(200).send("Recieved");
+       
       }
     }else{
       return res.status(400).send("Event doesn't exist");
@@ -171,7 +169,13 @@ exports.postPeiceOfTrashToEvent = functions.https.onRequest(async (req, res) => 
     return res.status(400).send("You aren't logged in");
   }
 });
-
+exports.givePointToUserInEvent = functions.firestore.document('events/{eventID}/trash/{trashID}').onCreate(async(snapshot, context)=>{
+  let userDoc = await db.collection('events').doc(context.params.eventID).collection('participants').doc(snapshot.data().user).get();
+  let points = userDoc.data()['points'];
+   return db.collection('events').doc(context.params.eventID).collection('participants').doc(snapshot.data().user).update({
+     points: points+1
+   });
+ });
 exports.registerPeiceOfTrashInAnalyticsData = functions.firestore.document('events/{eventID}/trash/{trashID}').onCreate((snapshot, context)=>{
 
   const eventID = context.params.eventID;

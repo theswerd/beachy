@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
+	<string>We need the camera</string>
+	<key>NSFileProviderDomainUsageDescription</key>
 	<string>We need to access your camera so you can send images of the trash you find.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Cuz testing ig</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need to access your photo library so you can post cleanups with images</string>
 	<key>CFBundleURLTypes</key>

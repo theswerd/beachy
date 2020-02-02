@@ -2,6 +2,7 @@ import 'package:beachy/pages/cleanupfeed.dart';
 import 'package:beachy/pages/startpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mdi/mdi.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,6 +18,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child:ListView(
+          children: <Widget>[
+            ListTile(
+              title: Text("Logout"),
+              onTap:()=>FirebaseAuth.instance.signOut()
+            ),
+            
+          ],
+        )
+      ),
       appBar: AppBar(
         title: Text("Beachy"),
       ),
@@ -32,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         MaterialPageRoute(
           builder: (c)=>IntroPages(),
           fullscreenDialog: true,
-          maintainState: true
+          maintainState: false
         )
       );
     }else{

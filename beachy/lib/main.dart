@@ -16,11 +16,7 @@ class MyApp extends StatelessWidget {
         buttonColor: Colors.white,
         brightness: Brightness.light
       ),
-      darkTheme: ThemeData(
-        primaryColor: Constants.darkColors.primaryColor,
-        accentColor: Constants.darkColors.secondaryColor,
-        brightness: Brightness.dark
-      ),
+      
       home: HomePage(),
     );
   }
