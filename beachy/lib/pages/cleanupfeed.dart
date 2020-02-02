@@ -24,13 +24,14 @@ class _FeedState extends State<Feed> {
       stream: Firestore.instance
           .collection("events")
           .orderBy('date', descending: false)
-          //.where('happened', isEqualTo: 'false')
           .limit(50)
           .getDocuments()
           .asStream(),
       builder: (c, s) {
         if (s.connectionState != ConnectionState.done) {
           return Center(child: CircularProgressIndicator());
+        }else if(s.hasError){
+          return Center(child: Text(s.error.toString()));
         }
         List<DocumentSnapshot> documents = s.data.documents;
 
