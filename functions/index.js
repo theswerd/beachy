@@ -123,6 +123,16 @@ exports.addEventToUserDoc = functions.firestore.document("events/{eventID}/parti
     }
   )
 });
+exports.updateEventRegistrationAmount = functions.firestore.document("events/{eventID}/participants/{userID}").onCreate(async(snapshot,context)=>{
+  let participants = await db.collection('events').doc(context.params.eventID).collection('participants').listDocuments();
+  db.collection('events').doc(
+    context.params.eventID
+  ).update(
+    {
+      inAttendance: participants.length
+    }
+  )
+});
 
 exports.postPeiceOfTrashToEvent = functions.https.onRequest(async (req, res) => {
   const eventName = req.body.eventID;

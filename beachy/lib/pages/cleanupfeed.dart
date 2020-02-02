@@ -40,11 +40,12 @@ class _FeedState extends State<Feed> {
             itemBuilder: (c, i) {
               DocumentSnapshot document = documents[i];
               Cleanup cleanup = Cleanup(
+                  document.documentID,
                   document['name'],
                   document['date'],
                   document['endtime'],
                   document['image'],
-                  int.parse(document['inAttendance']),
+                  document['inAttendance'].runtimeType==String?int.parse(document['inAttendance']):document['inAttendance'],
                   document['locationShort'],
                   document['locationLong'],
                   document['active'] == true
@@ -117,6 +118,7 @@ class _FeedState extends State<Feed> {
                               mini: true,
                               child: Icon(Mdi.starOutline),
                               heroTag: document.toString()+cleanup.toString(),
+                              tooltip: "Happening right now!",
                               onPressed: (){},
                             ):Container()
                           ],

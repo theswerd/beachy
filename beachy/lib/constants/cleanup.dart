@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class Cleanup {
+  String id;
   String name;
+  String cleanup;
   Timestamp date;
   Timestamp endTime;
   String image;
@@ -11,6 +13,7 @@ class Cleanup {
   String locationLong;
   bool active;
   Cleanup(
+    this.id,
     this.name,
     this.date,
     this.endTime,

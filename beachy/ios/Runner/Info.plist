@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to access your camera so you can send images of the trash you find.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need to access your photo library so you can post cleanups with images</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
