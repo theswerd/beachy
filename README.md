@@ -8,3 +8,7 @@ Not only would this method bring the organizations more **volunteers**, it allow
 
 ### How it's used
 Once the event has started, the game begins. As the users they are picking up each piece of trash they take a picture and select a category for it. The categories are **plastic, metal, paper, hazardous** *(when users click hazardous a dialog comes up advising them not to touch it)*. The data is then sent to our backend. We give a more detailed analysis than ever possible before by using **Google's Vision API**. Not only does the organization have access to a **photo** of every single piece of trash recorded, the **material** and the exact **object** are also recorded for their convenience. At the end of the cleanup, the organizers will have all the information of the event, **without** the need for paper.
+
+### Demo
+
+If you would like to see a demo please check out https://streamable.com/7pooc
